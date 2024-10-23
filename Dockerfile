@@ -18,11 +18,10 @@ RUN \
     wget https://github.com/Modapto/orchestrator/archive/refs/heads/main.zip -O /opt/main.zip && \
     unzip /opt/main.zip -d /opt  && \
     rm /opt/main.zip && \
-    mvn -B -f /opt/microservice-controller/pom.xml clean install && \
-    rm -r /opt/microservice-controller && \
-    mvn -B -f /opt/microservice-controller-rest/pom.xml clean package && \
-    unzip /opt/microservice-controller-rest/target/micro-service-controller-rest.war -d /usr/local/tomcat/webapps/micro-service-controller-rest/  && \
-    rm -r /opt/microservice-controller-rest && \
+    mvn -B -f /opt/orchestrator-main/microservice-controller/pom.xml clean install && \
+    mvn -B -f /opt/orchestrator-main/microservice-controller-rest/pom.xml clean package && \
+    unzip /opt/orchestrator-main/microservice-controller-rest/target/micro-service-controller-rest.war -d /usr/local/tomcat/webapps/micro-service-controller-rest/  && \
+    rm -r /opt/orchestrator-main && \
     mkdir ${msc_data} && \
     echo 'if [ -f "${MSC_CONFIG}" ]; then exit 0; else cp /usr/local/tomcat/webapps/micro-service-controller-rest/WEB-INF/classes/org/adoxx/microservice/api/rest/config.json ${MSC_CONFIG}; fi' > /opt/initialize.sh && \
     chmod +x /opt/initialize.sh && \
