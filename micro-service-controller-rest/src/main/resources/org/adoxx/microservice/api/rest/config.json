@@ -1,0 +1,11 @@
+{
+    "microservicesDefinitionFolder" : "/opt/msc-data/microservices-collection/",
+    "uploadFolder" : "/opt/msc-data/microservices-upload/",
+    "logFileName" : "/opt/msc-data/msc-log.txt",
+    
+    "autostartEnabled" : true,
+    "maxJSExecTimeInMinutes" : 5,
+
+    "commandLineExecPath": "/opt/msc-data/executable-upload/",
+    "commandLineMaxExecTimeInMinutes": 5
+}

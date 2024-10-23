@@ -1,0 +1,5 @@
+/target/
+felix-cache/
+.settings/
+.classpath
+.project

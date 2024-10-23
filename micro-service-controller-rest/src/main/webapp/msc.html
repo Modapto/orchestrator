@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Microservice Controller</title>
+    
+    <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/vendor/summernote.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    
+    <script type="text/javascript" src="js/vendor/jquery.min.js"></script>
+    <script type="text/javascript" src="js/vendor/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/vendor/summernote.min.js"></script>
+    
+    <script type="text/javascript" src="js/vendor/codemirror.min.js"></script>
+    <script type="text/javascript" src="js/vendor/javascript.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/vendor/codemirror.min.css">
+    
+    <script type="text/javascript" src="js/msc.js"></script>
+    
+    <script type="text/javascript">
+        'use strict';
+        $(document).ready(function () {
+            var mscEndpoint = olive.utils.getPageUrl();
+            mscEndpoint = mscEndpoint.substring(0, mscEndpoint.lastIndexOf('/')) + '/rest/';
+            var module = olive.modules.newMicroserviceManagementInlineUI({
+                mscEndpoint: mscEndpoint,
+                callBtnText: 'Test a Call',
+                callConfigHandlerFn: function (msCallConfig, microserviceId, operationId) {
+                    /*TEST START 
+                    var widgetRoot = $('<div>');
+                    var widget = olive.modules.newWidgetView({
+                   	  initialView: 'render',
+                      removeBtnClickFn: function () {
+                          widgetRoot.empty();
+                      },
+                      mappingFn: function (configOutput, renderInput) {
+                          if(!configOutput.microserviceInputs) throw 'Widget not configured';
+                          Object.assign(renderInput, {
+                              microserviceId: microserviceId,
+                              operationId: operationId,
+                              microserviceInputJSON: JSON.stringify(configOutput.microserviceInputs),
+                              microserviceOutputAdaptAlg: configOutput.microserviceOutputAdaptAlg,
+                          });
+                          if(configOutput.serviceName)
+                          	widget.setWidgetTitle(configOutput.serviceName);
+                      },
+                      renderModule: olive.modules.newMicroserviceCallViewUI({
+                          mscEndpoint: mscEndpoint
+                      }),
+                      configModule: olive.modules.newMicroserviceCallConfigUI({
+                          mscEndpoint: mscEndpoint,
+                          microserviceId: microserviceId,
+                          operationId: operationId,
+                          forceStartWhenStopped: true,
+                          showServiceNameTxt: true
+                      })
+                    });
+                    
+                    $('#managementBody').append(widgetRoot.append(widget.render()));
+                    widget.getConfig().configModule.refresh();
+                    widget.setContent(msCallConfig);
+                    TEST END */
+                },
+                showServiceNameTxt: false
+            });
+            
+            $('#managementBody').append(module.render());
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="page-header text-center">
+            <h1>Microservice Controller</h1><h1><small>Dashboard</small></h1>
+        </div>
+    
+        <div class="panel panel-default">
+            <div class="panel-heading link" data-toggle="collapse" data-target="#managementDiv">
+                <h4 class="panel-title">Microservice Management <span class="caret"></span></h4>
+            </div>
+            <div id="managementDiv" class="panel-collapse list-group">
+                <div class="panel-body" id="managementBody">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+.link{
+    cursor: pointer;
+    color: #428bca;
+    white-space: nowrap;
+}
+.link:hover{
+    color: #FFFFFF;
+    background-color: #428bca;
+}
+
+.popover {
+    max-width: 50em !important;
+}
+
+.modal-dialog{
+    display: table;
+    width: auto;
+    min-width: 1000px;   
+}
+
+.row-eq-height {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.note-frame {
+    margin-bottom: 0px !important;
+}
+
+.CodeMirror {
+    height: auto !important;
+    border: 1px solid #ddd !important;
+}
+.CodeMirror-scroll {
+    max-height: 200px !important;
+    min-height: 100px !important;
+}
