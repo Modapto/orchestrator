@@ -453,7 +453,7 @@ public class RESTService {
         }catch(Exception ex){
             LogManager.unique().log(LogLevel.ERROR, "Exception calling the REST service uploadLocalFile", ex);
             return "{\"status\":-1, \"error\":\""+Utils.escapeJson(ex.getMessage())+"\"}";
-        }        
+        }
     }
 
     @POST
@@ -467,6 +467,31 @@ public class RESTService {
         }catch(Exception ex){
             LogManager.unique().log(LogLevel.ERROR, "Exception calling the REST service updateLocalFile", ex);
             return "{\"status\":-1, \"error\":\""+Utils.escapeJson(ex.getMessage())+"\"}";
-        }        
+        }
+    }
+
+    @GET
+    @Path("/downloadLocalFile")
+    @Produces(MediaType.APPLICATION_OCTET_STREAM)
+    public String downloadLocalFile(@QueryParam("fileId") String fileId){
+        try{
+            return new String(Utils.downloadLocalFile(fileId), "UTF-8");
+        }catch(Exception ex){
+            LogManager.unique().log(LogLevel.ERROR, "Exception calling the REST service updateLocalFile", ex);
+            return "{\"status\":-1, \"error\":\""+Utils.escapeJson(ex.getMessage())+"\"}";
+        }
+    }
+
+    @GET
+    @Path("/deleteLocalFile")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteLocalFile(@QueryParam("fileId") String fileId){
+        try{
+            Utils.deleteLocalFile(fileId);
+            return "{\"status\":0}";
+        }catch(Exception ex){
+            LogManager.unique().log(LogLevel.ERROR, "Exception calling the REST service updateLocalFile", ex);
+            return "{\"status\":-1, \"error\":\""+Utils.escapeJson(ex.getMessage())+"\"}";
+        }
     }
 }

@@ -349,6 +349,13 @@ public class Utils {
     public static byte[] downloadLocalFile(String fileId) throws Exception {
         return readFile(revealLocalFile(fileId));
     }
+
+    public static void deleteLocalFile(String fileId) throws Exception {
+        String filePath = revealLocalFile(fileId);
+        File file = new File(filePath);
+        if(!file.delete())
+            throw new Exception("Impossible to delete the file: " + filePath);
+    }
     
     public static List<String> listLocalFiles(String rootName) throws Exception {
         if(rootName == null || rootName.isEmpty())

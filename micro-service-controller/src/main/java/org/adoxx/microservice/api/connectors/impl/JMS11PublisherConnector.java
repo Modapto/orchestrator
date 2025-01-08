@@ -36,6 +36,7 @@ public class JMS11PublisherConnector extends SyncConnectorA {
         availableContexFactoryClasses.put("Solace", "com.solacesystems.jndi.SolJNDIInitialContextFactory");
         availableContexFactoryClasses.put("OpenJMS", "org.exolab.jms.jndi.InitialContextFactory");
         availableContexFactoryClasses.put("WebLogic", "weblogic.jndi.WLInitialContextFactory");
+        availableContexFactoryClasses.put("Kafka", "io.confluent.kafka.jms.KafkaInitialContextFactory");
     }
     
     private static HashMap<String, String> managedMessageTypes = new HashMap<String, String>();

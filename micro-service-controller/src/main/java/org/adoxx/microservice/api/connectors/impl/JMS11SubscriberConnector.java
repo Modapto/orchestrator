@@ -42,6 +42,7 @@ public class JMS11SubscriberConnector extends AsyncConnectorA {
         availableContexFactoryClasses.put("Solace", "com.solacesystems.jndi.SolJNDIInitialContextFactory");
         availableContexFactoryClasses.put("OpenJMS", "org.exolab.jms.jndi.InitialContextFactory");
         availableContexFactoryClasses.put("WebLogic", "weblogic.jndi.WLInitialContextFactory");
+        availableContexFactoryClasses.put("Kafka", "io.confluent.kafka.jms.KafkaInitialContextFactory");
     }
     
     private AsyncResponseHandlerI responseHandler = null;
