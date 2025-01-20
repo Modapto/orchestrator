@@ -1,6 +1,6 @@
 # MODAPTO Orchestrator
 
-This project contain the source code of the MODAPTO Orchestrator.
+This project contain the source code of the MODAPTO Orchestrator and the deployment Docker of both Orchestrator and Service Catalog.
 
 Instructions to build and start the docker container:
 
@@ -16,6 +16,8 @@ sudo docker run -d -p 8080:8080 -v ${PWD}/msc-data/:/opt/msc-data/ --name olive-
 </pre>
 
 3) Access the Orchestrator at http://127.0.0.1:8080/micro-service-controller-rest/
+
+4) Access the Service Catalog at http://127.0.0.1:8080/catalog/
 
 ### Useful commands
 - Stop the container
