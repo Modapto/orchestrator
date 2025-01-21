@@ -1,0 +1,312 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Orchestrator REST API",
+    "version": "1.0.0",
+    "description": "API specification for the Microservice Orchestrator REST implementation."
+  },
+  "paths": {
+    "/msc/getAvailableConnectors": {
+      "get": {
+        "summary": "Get available connectors",
+        "responses": {
+          "200": {
+            "description": "A list of available connectors.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/getStartedMicroservices": {
+      "get": {
+        "summary": "Get started microservices",
+        "responses": {
+          "200": {
+            "description": "A list of started microservices.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "array", "items": { "type": "string" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/createMicroservice": {
+      "post": {
+        "summary": "Create a microservice",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Microservice created successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "microserviceId": { "type": "string" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/createEmptyMicroserviceConfiguration": {
+      "get": {
+        "summary": "Create an empty microservice configuration",
+        "responses": {
+          "200": {
+            "description": "An empty microservice configuration object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/createDemoMicroserviceConfiguration": {
+      "get": {
+        "summary": "Create a demo microservice configuration",
+        "responses": {
+          "200": {
+            "description": "A demo microservice configuration object.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/updateMicroservice": {
+      "post": {
+        "summary": "Update a microservice",
+        "parameters": [
+          {
+            "name": "microserviceId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Microservice updated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/deleteMicroservice": {
+      "get": {
+        "summary": "Delete a microservice",
+        "parameters": [
+          {
+            "name": "microserviceId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Microservice deleted successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/retrieveAllMicroservices": {
+      "get": {
+        "summary": "Retrieve all microservices",
+        "responses": {
+          "200": {
+            "description": "A list of all microservices.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/retrieveMicroserviceDetails": {
+      "get": {
+        "summary": "Retrieve microservice details",
+        "parameters": [
+          {
+            "name": "microserviceId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the microservice.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/retrieveMicroserviceConfiguration": {
+      "get": {
+        "summary": "Retrieve microservice configuration",
+        "parameters": [
+          {
+            "name": "microserviceId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Configuration of the microservice.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/msc/getMicroserviceIOInfo": {
+      "get": {
+        "summary": "Get microservice IO information",
+        "parameters": [
+          {
+            "name": "microserviceId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "operationId",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "IO information of the microservice.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "integer" },
+                    "data": { "type": "object" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
