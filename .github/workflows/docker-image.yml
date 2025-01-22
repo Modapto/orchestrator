@@ -1,10 +1,20 @@
 name: Docker Image CI - Orchestrator
 
+env:
+  DOCKER_IMAGE: orchestrator
+  
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - '**/README.md'
+      - '*.github/workflows/**'
   pull_request:
     branches: [ "main" ]
+    paths-ignore:
+      - '**/README.md'
+      - '*.github/workflows/**'
+  workflow_dispatch:
 
 jobs:
   build-and-push-image:
@@ -21,7 +31,7 @@ jobs:
         password: ${{ secrets.CI_ORG_TOKEN }}
 
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag ghcr.io/modapto/orchestrator:latest
+      run: docker build --no-cache . --file Dockerfile --tag ghcr.io/modapto/${{ env.DOCKER_IMAGE }}:latest
 
     - name: Push the Docker image
-      run: docker push ghcr.io/modapto/orchestrator:latest
+      run: docker push ghcr.io/modapto/${{ env.DOCKER_IMAGE }}:latest
