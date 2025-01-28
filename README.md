@@ -2,6 +2,8 @@
 
 This project contain the source code of the MODAPTO Orchestrator and the deployment Docker of both Orchestrator and Service Catalog.
 
+Live version is available at https://services.modapto.atc.gr/micro-service-controller-rest/
+
 Instructions to build and start the docker container:
 
 1) Build the image
