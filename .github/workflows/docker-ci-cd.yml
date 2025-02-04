@@ -1,4 +1,4 @@
-name: Docker Image CI/CD - Orchestrator
+name: Docker Image CI/CD - Orchestrator/Service Catalogue
 
 env:
   DOCKER_IMAGE: orchestrator-with-service-catalogue
