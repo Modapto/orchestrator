@@ -4,6 +4,7 @@ import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.jms.BytesMessage;
 import javax.jms.Connection;
@@ -172,6 +173,16 @@ public class JMS11PublisherConnector extends SyncConnectorA {
         Properties initialProperties = new Properties();
         initialProperties.put(Context.INITIAL_CONTEXT_FACTORY, contextClass);
         initialProperties.put(Context.PROVIDER_URL, url);
+        if(contextName.equals("Kafka")) {
+            //https://docs.confluent.io/platform/current/clients/kafka-jms-client/overview.html
+            //https://docs.confluent.io/platform/current/clients/kafka-jms-client/dev-guide.html#client-jms-developing
+            //https://tech.forums.softwareag.com/t/kafka-jms-how-to-using-confluent-jms-client/255391
+            //https://emmanuel-galindo.github.io/en/2020/08/11/kafka-jms-client-to-confluent-cloud/
+            initialProperties.put("bootstrap.servers", url);
+            initialProperties.put("security.protocol", "SSL");
+            initialProperties.put("client.id", "my-test-client");
+            initialProperties.put(io.confluent.kafka.jms.JMSClientConfig.CONFLUENT_TOPIC_REPLICATION_FACTOR_CONF, "1");
+        }
         context = new InitialContext(initialProperties);
         
         ConnectionFactory factory = (ConnectionFactory) context.lookup(connectionFactoryLookupName);
@@ -187,6 +198,7 @@ public class JMS11PublisherConnector extends SyncConnectorA {
                 throw new RuntimeException(exception);
             }
         });
+        
         connection.start();
         session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
     }
@@ -215,9 +227,10 @@ public class JMS11PublisherConnector extends SyncConnectorA {
         if(!(persistenceMode.equals("PERSISTENT") || persistenceMode.equals("NON_PERSISTENT"))) throw new Exception("The persistenceMode " + persistenceMode + " is not valid");
         
         Destination topic = (Destination) context.lookup(topicName);
+        if (topic == null) 
+            topic = session.createTopic(topicName);
         try(MessageProducer messageProducer = session.createProducer(topic)) {
             Message msg = null;
-            
             if(messagetype.equals("TextMessage")) {
                 msg = session.createTextMessage(message);
             } else if(messagetype.equals("BytesMessage")) {
@@ -227,7 +240,6 @@ public class JMS11PublisherConnector extends SyncConnectorA {
             } else {
                 throw new Exception("The messagetype " + messagetype + " is not available");
             }
-            
             addProperties(msg, properties);
             if(persistenceMode.equals("NON_PERSISTENT"))
                 messageProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
@@ -272,6 +284,12 @@ public class JMS11PublisherConnector extends SyncConnectorA {
                 connection.close();
             if(context!=null)
                 context.close();
+            Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+            for(Thread thread : threadSet) {
+                if(thread.getName().equals("KafkaBasedLog Work Thread - _confluent-command") || thread.getName().equals("kafka-producer-network-thread | my-test-client")) {
+                    thread.stop();
+                }
+            }
         } catch(Exception ex) {}
     }
     
@@ -295,6 +313,32 @@ public class JMS11PublisherConnector extends SyncConnectorA {
                 .add("properties", Json.createObjectBuilder().add("value", "{\"id\":\"1\"}"))
                 .add("message", Json.createObjectBuilder().add("value", Utils.base64Encode("hello world!".getBytes("UTF-8"))))
                 .add("messageType", Json.createObjectBuilder().add("value", "Bytes"))
+                .add("persistenceMode", Json.createObjectBuilder().add("value", "NON_PERSISTENT"))
+                .build()
+            );
+            System.out.println(callOutputJson);
+        } finally {
+            connector.threadStop();
+        }
+    }
+    */
+    
+    /*
+    public static void main(String[] argv) throws Exception{
+        JMS11PublisherConnector connector = new JMS11PublisherConnector();
+        try{
+            connector.threadStart(Json.createObjectBuilder()
+                .add("url", Json.createObjectBuilder().add("value", "kafka.modapto.atc.gr:9092"))
+                .add("contextName", Json.createObjectBuilder().add("value", "Kafka"))
+                .add("connectionFactoryLookupName", Json.createObjectBuilder().add("value", "ConnectionFactory"))
+                .build()
+            );
+            connector.waitThreadStart();
+            JsonObject callOutputJson = connector.performCallSafe(Json.createObjectBuilder()
+                .add("topicName", Json.createObjectBuilder().add("value", "production-schema-registration"))
+                .add("properties", Json.createObjectBuilder().add("value", "{}"))
+                .add("message", Json.createObjectBuilder().add("value", "Test"))
+                .add("messageType", Json.createObjectBuilder().add("value", "Text"))
                 .add("persistenceMode", Json.createObjectBuilder().add("value", "NON_PERSISTENT"))
                 .build()
             );
