@@ -65,6 +65,8 @@ olive.utils = (function () {
         return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
       });
     },
+
+    callServiceAccessToken: '',
     
     callService: function (url, paramsQueryString, postData, successCallback, failureCallback) {
       var serviceUrl = url + (paramsQueryString != null ? '?' + paramsQueryString : '');
@@ -80,7 +82,7 @@ olive.utils = (function () {
             failureCallback('Internal error: ' + data.error);
         },
         error: function (request, status, error) {
-          failureCallback('Error contacting the service: ' + serviceUrl + ' : ' + status + ' ' + error);
+          failureCallback('Error contacting the service: ' + serviceUrl + ' : (' + status + ' - ' + error + ') ' + request.responseText);
         }
       };
 
@@ -94,6 +96,10 @@ olive.utils = (function () {
           ajaxConfig.contentType = 'application/octet-stream';
           ajaxConfig.data = postData;
         }
+      }
+
+      if (_utils.callServiceAccessToken != '') {
+        ajaxConfig.headers = { "Authorization": "Bearer " + _utils.callServiceAccessToken };
       }
 
       $.ajax(ajaxConfig);
@@ -1956,11 +1962,13 @@ olive.modules.newMicroserviceManagementInlineUI = (function (Utils, newTable, ne
   };
 
   var functionRet = function (config={}) {
+    config.access_token = config.access_token || '';
     config.mscEndpoint = config.mscEndpoint || '';
     config.callConfigHandlerFn = config.callConfigHandlerFn || function (msCallConfig, microserviceId, operationId) {};
     config.callBtnText = config.callBtnText || 'Call';
     config.showServiceNameTxt = config.showServiceNameTxt!=null?config.showServiceNameTxt:true;
     
+    Utils.callServiceAccessToken = config.access_token;
     var _state = {
       lastMicroserviceSelectedDetails: null,
       connectors: '',

@@ -7,5 +7,9 @@
     "maxJSExecTimeInMinutes" : 5,
 
     "commandLineExecPath": "/opt/msc-data/executable-upload/",
-    "commandLineMaxExecTimeInMinutes": 5
+    "commandLineMaxExecTimeInMinutes": 5,
+    "keycloakUrlEnv": "KEYCLOAK_URL",
+    "keycloakRealmEnv": "KEYCLOAK_REALM",
+    "keycloakClientEnv": "KEYCLOAK_CLIENT",
+    "keycloakSecretEnv": "KEYCLOAK_SECRET"
 }

@@ -19,6 +19,11 @@ import org.adoxx.microservice.utils.Utils;
 
 @WebListener
 public class RESTContextListener implements ServletContextListener {
+    
+    public static String keycloakUrl = "";
+    public static String keycloakRealm = "";
+    public static String keycloakClient = "";
+    public static String keycloakSecret = "";
 
     @Override
     public void contextDestroyed(ServletContextEvent arg0) {
@@ -64,6 +69,17 @@ public class RESTContextListener implements ServletContextListener {
                 CommandLineConnector.commandLineExecPath = commandLineExecPath;
             }
             CommandLineConnector.commandLineMaxExecTimeInMinutes = config.getInt("commandLineMaxExecTimeInMinutes", 5);
+
+            String keycloakUrlEnv = config.getString("keycloakUrlEnv", "");
+            String keycloakRealsEnv = config.getString("keycloakRealmEnv", "");
+            String keycloakClientEnv = config.getString("keycloakClientEnv", "");
+            String keycloakSecretEnv = config.getString("keycloakSecretEnv", "");
+            if(!keycloakUrlEnv.isEmpty() && !keycloakRealsEnv.isEmpty() && !keycloakClientEnv.isEmpty() && !keycloakSecretEnv.isEmpty()) {
+                RESTContextListener.keycloakUrl = System.getenv(keycloakUrlEnv)==null?"":System.getenv(keycloakUrlEnv);
+                RESTContextListener.keycloakRealm = System.getenv(keycloakRealsEnv)==null?"":System.getenv(keycloakRealsEnv);
+                RESTContextListener.keycloakClient = System.getenv(keycloakClientEnv)==null?"":System.getenv(keycloakClientEnv);
+                RESTContextListener.keycloakSecret = System.getenv(keycloakSecretEnv)==null?"":System.getenv(keycloakSecretEnv);
+            }
             
             System.out.println("MICROSERVICE CONFIGURATION DEFINITION FOLDER: " + microservicesDefinitionFolder);
             System.out.println("MICROSERVICE CONFIGURATION UPLOADS FOLDER: " + uploadFolder);

@@ -2,8 +2,34 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Microservice Controller</title>
+    <title>Services Connector & Orchestrator</title>
     
+    <script>
+      const auth_url = new URLSearchParams(window.location.search).get('auth_url');
+      if (auth_url) {
+        const client_id = new URLSearchParams(window.location.search).get('client_id');
+        window.location.href = client_id ? `${auth_url}?client_id=${encodeURIComponent(client_id)}&response_type=code&scope=openid&redirect_uri=${encodeURIComponent(window.location.origin + window.location.pathname)}` : `${auth_url}&redirect_uri=${encodeURIComponent(window.location.origin + window.location.pathname)}`;
+      }
+    </script>
+    <script>
+      const code = new URLSearchParams(window.location.search).get('code');
+      if (code) {
+        const token_url = new URLSearchParams(window.location.search).get('token_url');
+        if (!token_url) throw new Error('token_url parameter is missing.');
+        const client_id = new URLSearchParams(window.location.search).get('client_id');
+        if (!client_id) throw new Error('client_id parameter is missing.');
+        const access_token = await fetch(token_url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: `grant_type=authorization_code&client_id=${encodeURIComponent(client_id)}&code=${encodeURIComponent(code)}&redirect_uri=${encodeURIComponent(window.location.origin + window.location.pathname)}`
+        }).then(response=>response.json()).then(response=>response.access_token);
+        if (access_token) {
+          window.location.href = `${window.location.origin + window.location.pathname}?access_token=${encodeURIComponent(access_token)}`;
+        }
+      }
+    </script>
     <link rel="stylesheet" type="text/css" href="css/vendor/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/vendor/summernote.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -16,6 +42,14 @@
     <script type="text/javascript" src="js/vendor/javascript.min.js"></script>
     <link rel="stylesheet" type="text/css" href="css/vendor/codemirror.min.css">
     
+    <script>
+        'use strict';
+        function getURLParameter(sParam) {
+            var urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(sParam);
+        };
+        window.access_token = getURLParameter('access_token');
+    </script>
     <script type="text/javascript" src="js/msc.js"></script>
     
     <script type="text/javascript">
@@ -24,6 +58,7 @@
             var mscEndpoint = olive.utils.getPageUrl();
             mscEndpoint = mscEndpoint.substring(0, mscEndpoint.lastIndexOf('/')) + '/rest/';
             var module = olive.modules.newMicroserviceManagementInlineUI({
+                access_token: window.access_token,
                 mscEndpoint: mscEndpoint,
                 callBtnText: 'Test a Call',
                 callConfigHandlerFn: function (msCallConfig, microserviceId, operationId) {
@@ -72,12 +107,12 @@
 <body>
     <div class="container">
         <div class="page-header text-center">
-            <h1>Microservice Controller</h1><h1><small>Dashboard</small></h1>
+            <h1>Services Connector & Orchestrator</h1>
         </div>
     
         <div class="panel panel-default">
             <div class="panel-heading link" data-toggle="collapse" data-target="#managementDiv">
-                <h4 class="panel-title">Microservice Management <span class="caret"></span></h4>
+                <h4 class="panel-title">Services Management <span class="caret"></span></h4>
             </div>
             <div id="managementDiv" class="panel-collapse list-group">
                 <div class="panel-body" id="managementBody">
