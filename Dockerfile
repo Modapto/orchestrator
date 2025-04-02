@@ -29,8 +29,10 @@ RUN \
     unzip /opt/main.zip -d /opt  && \
     rm /opt/main.zip && \
     mkdir /usr/local/tomcat/webapps/catalog && \
+    mkdir /usr/local/tomcat/webapps/catalog/vendor && \
     mkdir ${msc_data}/microservices-collection && \
     cp /opt/service-catalog-main/PUBLIC/modapto_service_catalogue.html /usr/local/tomcat/webapps/catalog/index.html && \
+    cp -a /opt/service-catalog-main/PUBLIC/vendor/. /usr/local/tomcat/webapps/catalog/vendor/ && \
     cp -a /opt/service-catalog-main/MICROSERVICES/. ${msc_data}/microservices-collection/ && \
     apt-get -qy purge maven && \
     apt-get -qy autoremove && \
