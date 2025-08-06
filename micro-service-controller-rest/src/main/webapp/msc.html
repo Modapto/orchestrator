@@ -49,6 +49,9 @@
             return urlParams.get(sParam);
         };
         window.access_token = getURLParameter('access_token');
+        window.addEventListener('message', e => {
+          window.access_token = e.data;
+        }, false);
     </script>
     <script type="text/javascript" src="js/msc.js"></script>
     
