@@ -50,13 +50,31 @@
         };
         window.access_token = getURLParameter('access_token');
         window.addEventListener('message', e => {
-          window.access_token = e.data;
+            window.access_token = e.data.serviceToken;
+
+            var mscEndpoint = olive.utils.getPageUrl();
+            mscEndpoint = mscEndpoint.substring(0, mscEndpoint.lastIndexOf('/')) + '/rest/';
+            var module = olive.modules.newMicroserviceManagementInlineUI({
+                access_token: window.access_token,
+                mscEndpoint: mscEndpoint,
+                callBtnText: 'Test a Call',
+                callConfigHandlerFn: function (msCallConfig, microserviceId, operationId) {},
+                showServiceNameTxt: false
+            });
+          $('#managementBody').empty().append(module.render());
         }, false);
     </script>
     <script type="text/javascript" src="js/msc.js"></script>
     
     <script type="text/javascript">
         'use strict';
+        window.moduleComp = olive.modules.newMicroserviceManagementInlineUI({
+            access_token: window.access_token,
+            mscEndpoint: mscEndpoint,
+            callBtnText: 'Test a Call',
+            callConfigHandlerFn: function (msCallConfig, microserviceId, operationId) {},
+            showServiceNameTxt: false
+        });
         $(document).ready(function () {
             var mscEndpoint = olive.utils.getPageUrl();
             mscEndpoint = mscEndpoint.substring(0, mscEndpoint.lastIndexOf('/')) + '/rest/';
@@ -64,45 +82,9 @@
                 access_token: window.access_token,
                 mscEndpoint: mscEndpoint,
                 callBtnText: 'Test a Call',
-                callConfigHandlerFn: function (msCallConfig, microserviceId, operationId) {
-                    /*TEST START 
-                    var widgetRoot = $('<div>');
-                    var widget = olive.modules.newWidgetView({
-                   	  initialView: 'render',
-                      removeBtnClickFn: function () {
-                          widgetRoot.empty();
-                      },
-                      mappingFn: function (configOutput, renderInput) {
-                          if(!configOutput.microserviceInputs) throw 'Widget not configured';
-                          Object.assign(renderInput, {
-                              microserviceId: microserviceId,
-                              operationId: operationId,
-                              microserviceInputJSON: JSON.stringify(configOutput.microserviceInputs),
-                              microserviceOutputAdaptAlg: configOutput.microserviceOutputAdaptAlg,
-                          });
-                          if(configOutput.serviceName)
-                          	widget.setWidgetTitle(configOutput.serviceName);
-                      },
-                      renderModule: olive.modules.newMicroserviceCallViewUI({
-                          mscEndpoint: mscEndpoint
-                      }),
-                      configModule: olive.modules.newMicroserviceCallConfigUI({
-                          mscEndpoint: mscEndpoint,
-                          microserviceId: microserviceId,
-                          operationId: operationId,
-                          forceStartWhenStopped: true,
-                          showServiceNameTxt: true
-                      })
-                    });
-                    
-                    $('#managementBody').append(widgetRoot.append(widget.render()));
-                    widget.getConfig().configModule.refresh();
-                    widget.setContent(msCallConfig);
-                    TEST END */
-                },
+                callConfigHandlerFn: function (msCallConfig, microserviceId, operationId) {},
                 showServiceNameTxt: false
             });
-            
             $('#managementBody').append(module.render());
         });
     </script>
