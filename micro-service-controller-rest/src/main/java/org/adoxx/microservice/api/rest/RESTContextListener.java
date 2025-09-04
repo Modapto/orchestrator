@@ -70,10 +70,10 @@ public class RESTContextListener implements ServletContextListener {
             }
             CommandLineConnector.commandLineMaxExecTimeInMinutes = config.getInt("commandLineMaxExecTimeInMinutes", 5);
 
-            String keycloakUrlEnv = config.getString("keycloakUrlEnv", "");
-            String keycloakRealsEnv = config.getString("keycloakRealmEnv", "");
-            String keycloakClientEnv = config.getString("keycloakClientEnv", "");
-            String keycloakSecretEnv = config.getString("keycloakSecretEnv", "");
+            String keycloakUrlEnv = config.getString("keycloakUrlEnv", "OSC_KEYCLOAK_URL");
+            String keycloakRealsEnv = config.getString("keycloakRealmEnv", "OSC_KEYCLOAK_REALM");
+            String keycloakClientEnv = config.getString("keycloakClientEnv", "OSC_KEYCLOAK_CLIENT");
+            String keycloakSecretEnv = config.getString("keycloakSecretEnv", "OSC_KEYCLOAK_SECRET");
             if(!keycloakUrlEnv.isEmpty() && !keycloakRealsEnv.isEmpty() && !keycloakClientEnv.isEmpty() && !keycloakSecretEnv.isEmpty()) {
                 RESTContextListener.keycloakUrl = System.getenv(keycloakUrlEnv)==null?"":System.getenv(keycloakUrlEnv);
                 RESTContextListener.keycloakRealm = System.getenv(keycloakRealsEnv)==null?"":System.getenv(keycloakRealsEnv);
