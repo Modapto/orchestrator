@@ -8,7 +8,8 @@
       const auth_url = new URLSearchParams(window.location.search).get('auth_url');
       if (auth_url) {
         const client_id = new URLSearchParams(window.location.search).get('client_id');
-        window.location.href = client_id ? `${auth_url}?client_id=${encodeURIComponent(client_id)}&response_type=code&scope=openid&redirect_uri=${encodeURIComponent(window.location.origin + window.location.pathname)}` : `${auth_url}&redirect_uri=${encodeURIComponent(window.location.origin + window.location.pathname)}`;
+        //window.location.href = client_id ? `${auth_url}?client_id=${encodeURIComponent(client_id)}&response_type=code&scope=openid&redirect_uri=${encodeURIComponent(window.location.origin + window.location.pathname)}` : `${auth_url}&redirect_uri=${encodeURIComponent(window.location.origin + window.location.pathname)}`;
+        window.location.href = client_id ? `${auth_url}?client_id=${encodeURIComponent(client_id)}&response_type=code&scope=openid&redirect_url=${encodeURIComponent(window.location.origin + window.location.pathname)}` : `${auth_url}?redirect_url=${encodeURIComponent(window.location.origin + window.location.pathname)}`;
       }
     </script>
     <script>
