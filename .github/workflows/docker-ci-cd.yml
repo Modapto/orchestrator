@@ -2,6 +2,7 @@ name: Docker Image CI/CD - Orchestrator/Service Catalogue
 
 env:
   DOCKER_IMAGE: orchestrator-with-service-catalogue
+  FFT_IMAGE: orchestrator-with-service-catalogue-fft
   
 on:
   push:
@@ -52,10 +53,14 @@ jobs:
             # Login to GitHub Container Registry
             echo "${{ secrets.CI_ORG_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
             
-            # Deploy new Image
+            # Deploy new Image on Dev Env
             cd /root/modapto/system-deployment
             docker compose pull ${{ env.DOCKER_IMAGE }}
             docker compose up -d --no-deps ${{ env.DOCKER_IMAGE }}
+
+            # Deploy new Image on FFT Env
+            cd /root/modapto/fft-deployment
+            docker compose up -d --no-deps ${{ env.FFT_IMAGE }}
 
             # Remove unused images
             docker image prune -f
