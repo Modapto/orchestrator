@@ -8,8 +8,8 @@
 
     "commandLineExecPath": "/opt/msc-data/executable-upload/",
     "commandLineMaxExecTimeInMinutes": 5,
-    "keycloakUrlEnv": "KEYCLOAK_URL",
-    "keycloakRealmEnv": "KEYCLOAK_REALM",
-    "keycloakClientEnv": "KEYCLOAK_CLIENT",
-    "keycloakSecretEnv": "KEYCLOAK_SECRET"
+    "keycloakUrlEnv": "OSC_KEYCLOAK_URL",
+    "keycloakRealmEnv": "OSC_KEYCLOAK_REALM",
+    "keycloakClientEnv": "OSC_KEYCLOAK_CLIENT",
+    "keycloakSecretEnv": "OSC_KEYCLOAK_SECRET"
 }
