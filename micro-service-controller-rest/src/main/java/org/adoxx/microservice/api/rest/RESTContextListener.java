@@ -79,6 +79,11 @@ public class RESTContextListener implements ServletContextListener {
                 RESTContextListener.keycloakRealm = System.getenv(keycloakRealsEnv)==null?"":System.getenv(keycloakRealsEnv);
                 RESTContextListener.keycloakClient = System.getenv(keycloakClientEnv)==null?"":System.getenv(keycloakClientEnv);
                 RESTContextListener.keycloakSecret = System.getenv(keycloakSecretEnv)==null?"":System.getenv(keycloakSecretEnv);
+
+                System.out.println(keycloakUrlEnv + " : " + RESTContextListener.keycloakUrl);
+                System.out.println(keycloakRealsEnv + " : " + RESTContextListener.keycloakRealm);
+                System.out.println(keycloakClientEnv + " : " + RESTContextListener.keycloakClient);
+                System.out.println(keycloakSecretEnv + " : " + RESTContextListener.keycloakSecret);
             }
             
             System.out.println("MICROSERVICE CONFIGURATION DEFINITION FOLDER: " + microservicesDefinitionFolder);
