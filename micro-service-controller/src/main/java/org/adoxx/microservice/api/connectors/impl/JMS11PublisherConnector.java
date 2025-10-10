@@ -28,6 +28,8 @@ import javax.naming.InitialContext;
 import org.adoxx.microservice.api.connectors.SyncConnectorA;
 import org.adoxx.microservice.utils.Utils;
 
+import io.confluent.kafka.jms.KafkaConnectionFactory;
+
 public class JMS11PublisherConnector extends SyncConnectorA {
     //use JNDI to obtain JMS objects
     private static HashMap<String, String> availableContexFactoryClasses = new HashMap<String, String>();
@@ -179,12 +181,13 @@ public class JMS11PublisherConnector extends SyncConnectorA {
             //https://tech.forums.softwareag.com/t/kafka-jms-how-to-using-confluent-jms-client/255391
             //https://emmanuel-galindo.github.io/en/2020/08/11/kafka-jms-client-to-confluent-cloud/
             initialProperties.put("bootstrap.servers", url);
-            initialProperties.put("security.protocol", "SSL");
-            initialProperties.put("client.id", "my-test-client");
+            //initialProperties.put("security.protocol", "SSL");
+            initialProperties.put("client.id", "orchestrator-client");
             initialProperties.put(io.confluent.kafka.jms.JMSClientConfig.CONFLUENT_TOPIC_REPLICATION_FACTOR_CONF, "1");
         }
         context = new InitialContext(initialProperties);
         
+        //ConnectionFactory factory = contextName.equals("Kafka") ?  new KafkaConnectionFactory(initialProperties) : (ConnectionFactory) context.lookup(connectionFactoryLookupName);
         ConnectionFactory factory = (ConnectionFactory) context.lookup(connectionFactoryLookupName);
         if(contextName.equals("Nirvana")) { //nirvana PATCH for incorrect setted RNAME!
             //((com.pcbsys.nirvana.nJMS.ConnectionFactoryImpl) factory).setRNAME(url);
@@ -337,7 +340,7 @@ public class JMS11PublisherConnector extends SyncConnectorA {
             JsonObject callOutputJson = connector.performCallSafe(Json.createObjectBuilder()
                 .add("topicName", Json.createObjectBuilder().add("value", "production-schema-registration"))
                 .add("properties", Json.createObjectBuilder().add("value", "{}"))
-                .add("message", Json.createObjectBuilder().add("value", "Test"))
+                .add("message", Json.createObjectBuilder().add("value", "Test 2"))
                 .add("messageType", Json.createObjectBuilder().add("value", "Text"))
                 .add("persistenceMode", Json.createObjectBuilder().add("value", "NON_PERSISTENT"))
                 .build()
@@ -347,6 +350,6 @@ public class JMS11PublisherConnector extends SyncConnectorA {
             connector.threadStop();
         }
     }
-    */
+     */
 }
 

@@ -71,13 +71,14 @@
     
     <script type="text/javascript">
         'use strict';
+        /*
         window.moduleComp = olive.modules.newMicroserviceManagementInlineUI({
             access_token: window.access_token,
             mscEndpoint: mscEndpoint,
             callBtnText: 'Test a Call',
             callConfigHandlerFn: function (msCallConfig, microserviceId, operationId) {},
             showServiceNameTxt: false
-        });
+        });*/
         $(document).ready(function () {
             var mscEndpoint = olive.utils.getPageUrl();
             mscEndpoint = mscEndpoint.substring(0, mscEndpoint.lastIndexOf('/')) + '/rest/';
