@@ -46,6 +46,7 @@ import org.adoxx.microservice.api.connectors.impl.TwilioSMSSenderConnector;
 import org.adoxx.microservice.api.connectors.impl.TwitterPOSTConnector;
 import org.adoxx.microservice.api.connectors.impl.TwitterSearchConnector;
 import org.adoxx.microservice.api.connectors.impl.TwitterUserInfosConnector;
+import org.adoxx.microservice.api.connectors.impl.XSLTConnector;
 
 /**
  * <h1>ConnectorsController</h1>
@@ -129,6 +130,7 @@ public class ConnectorsController {
         //addConnector(HPPrinterMonitor.class.getName());
         addConnector(JFuzzyLogicEngineConnector.class.getName());
         addConnector(CommandLineConnector.class.getName());
+        addConnector(XSLTConnector.class.getName());
     }
     
     /**
